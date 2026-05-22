@@ -1,3 +1,9 @@
 spring:
   application:
-    name: wos-dtr
+    name: wos-payroll
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB

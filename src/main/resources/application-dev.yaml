@@ -1,0 +1,30 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: wos-payroll
+  datasource:
+    url: jdbc:postgresql://localhost:5432/workos
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Shared JWT secret with wos-auth — wos-payroll only validates tokens, never issues them.
+jwt:
+  secret: 9X2vK8mP4qR7sT1uW6yA3dF0gH5jL8nB2eC7fI4kM1pQ6rS0tU9vX3zA5bE8hJnK2mP5qR7sT0uW3yA6dF1gH4jL9nB3eC8fI5kM2p
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.gpm: DEBUG
