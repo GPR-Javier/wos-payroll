@@ -18,6 +18,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        generate_statistics: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 # Shared JWT secret with wos-auth — wos-payroll only validates tokens, never issues them.
