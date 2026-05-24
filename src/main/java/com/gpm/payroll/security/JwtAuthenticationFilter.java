@@ -29,6 +29,7 @@ import java.util.List;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    private final PermissionLoader permissionLoader;
 
     @Override
     protected void doFilterInternal(
@@ -40,28 +41,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = extractAccessToken(request);
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Claims claims = jwtService.extractAllClaims(token);
-            String email = claims.get("email", String.class);
-            String role = claims.get("role", String.class);
+            try {
+                Claims claims = jwtService.extractAllClaims(token);
+                String email = claims.get("email", String.class);
+                String role = claims.get("role", String.class);
 
-            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            List<String> tokenAuthorities = jwtService.extractAuthorities(token);
-            if (tokenAuthorities != null) {
-                tokenAuthorities.stream().map(SimpleGrantedAuthority::new).forEach(authorities::add);
+                Object rawId = claims.get("userRoleId");
+                Long userRoleId = rawId instanceof Number ? ((Number) rawId).longValue() : null;
+
+                List<SimpleGrantedAuthority> authorities = new ArrayList<>(permissionLoader.loadByUserRoleId(userRoleId));
+                if ("ADMIN".equalsIgnoreCase(role)) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                }
+
+                UserDetails userDetails = User.withUsername(email)
+                        .password("")
+                        .authorities(authorities)
+                        .build();
+
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            } catch (Exception e) {
+                log.warn("JWT authentication failed for request [{}]: {}", request.getRequestURI(), e.getMessage());
             }
-            if ("ADMIN".equalsIgnoreCase(role)) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            }
-
-            UserDetails userDetails = User.withUsername(email)
-                    .password("")
-                    .authorities(authorities)
-                    .build();
-
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 
         filterChain.doFilter(request, response);

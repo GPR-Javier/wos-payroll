@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -35,11 +34,6 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<String> extractAuthorities(String token) {
-        return (List<String>) extractAllClaims(token).get("authorities");
     }
 
     private SecretKey signingKey() {
