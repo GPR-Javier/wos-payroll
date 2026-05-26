@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api/payroll
+
 spring:
   application:
     name: wos-payroll
