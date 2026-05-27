@@ -24,4 +24,19 @@ public interface PayslipRepository extends JpaRepository<Payslip, Long> {
 
     @Query("SELECT COALESCE(SUM(p.incentives),0) FROM Payslip p WHERE p.payrollRun.status = 'released'")
     BigDecimal sumReleasedIncentives();
+
+    @Query("SELECT COALESCE(SUM(p.basicSalary),0) FROM Payslip p WHERE p.payrollRun.status = 'released'")
+    BigDecimal sumReleasedBasicSalary();
+
+    @Query("SELECT COALESCE(SUM(p.absences),0) FROM Payslip p WHERE p.payrollRun.status = 'released'")
+    BigDecimal sumReleasedAbsences();
+
+    @Query("SELECT COALESCE(SUM(p.latePenalties),0) FROM Payslip p WHERE p.payrollRun.status = 'released'")
+    BigDecimal sumReleasedLatePenalties();
+
+    @Query("SELECT COALESCE(SUM(p.cashAdvances),0) FROM Payslip p WHERE p.payrollRun.status = 'released'")
+    BigDecimal sumReleasedCashAdvances();
+
+    @Query("SELECT COALESCE(SUM(p.sss + p.philhealth + p.pagibig + p.tax),0) FROM Payslip p WHERE p.payrollRun.status = 'released'")
+    BigDecimal sumReleasedStatutoryDeductions();
 }

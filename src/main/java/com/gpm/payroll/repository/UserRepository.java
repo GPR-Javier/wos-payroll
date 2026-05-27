@@ -26,4 +26,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
               AND (ra.endAt   IS NULL OR ra.endAt   >= CURRENT_TIMESTAMP)
             """)
     List<User> findActiveByRoleName(@Param("roleName") String roleName);
+
+    List<User> findByActiveTrue();
 }
