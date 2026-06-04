@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <!--
+    Runs wos-payroll as a plain IDE Application that IntelliJ owns, so "Stop" kills the JVM and frees
+    its port cleanly. Use THIS instead of any Maven exec:exec config (which forks a child JVM that
+    survives Stop and keeps holding the port).
+  -->
+  <configuration default="false" name="WosPayrollApplication" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.gpm.payroll.WosPayrollApplication" />
+    <module name="wos-payroll" />
+    <option name="VM_PARAMETERS" value="" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
