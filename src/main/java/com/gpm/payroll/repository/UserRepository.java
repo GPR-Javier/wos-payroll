@@ -1,10 +1,10 @@
 package com.gpm.payroll.repository;
 
 import com.gpm.common.entity.User;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import java.util.List;
 
 /**
  * Read-only access to the shared {@code users} table for payroll generation.

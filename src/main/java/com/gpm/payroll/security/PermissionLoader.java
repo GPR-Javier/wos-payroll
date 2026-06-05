@@ -1,14 +1,13 @@
 package com.gpm.payroll.security;
 
 import com.gpm.common.enums.FunctionalityCode;
+import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Component

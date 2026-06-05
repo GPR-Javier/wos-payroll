@@ -1,11 +1,10 @@
 package com.gpm.payroll.repository;
 
 import com.gpm.payroll.entity.PayrollSetup;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface PayrollSetupRepository extends JpaRepository<PayrollSetup, Long> {
 

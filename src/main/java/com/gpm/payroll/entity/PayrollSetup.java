@@ -3,12 +3,11 @@ package com.gpm.payroll.entity;
 import com.gpm.common.entity.JobPosition;
 import com.gpm.common.entity.SalaryGrade;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Read-only projection of the payroll_setups table for payroll computation.

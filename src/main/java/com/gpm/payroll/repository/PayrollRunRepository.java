@@ -1,11 +1,11 @@
 package com.gpm.payroll.repository;
 
 import com.gpm.common.entity.PayrollRun;
+import java.math.BigDecimal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import java.math.BigDecimal;
 
 public interface PayrollRunRepository extends JpaRepository<PayrollRun, Long> {
     Page<PayrollRun> findAllByOrderByCreatedAtDesc(Pageable pageable);
