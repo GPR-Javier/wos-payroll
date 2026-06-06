@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
@@ -27,6 +28,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    /** This app's audience. Tokens minted for a different app are rejected. */
+    private static final String APP_AUD = "workos";
+
     private final JwtService jwtService;
     private final PermissionLoader permissionLoader;
 
@@ -42,6 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
                 Claims claims = jwtService.extractAllClaims(token);
+
+                // Lenient aud check: reject only if aud is present and not ours. Tokens minted before
+                // multi-app support (no aud) are still accepted during the transition.
+                Set<String> aud = claims.getAudience();
+                if (aud != null && !aud.isEmpty() && !aud.contains(APP_AUD)) {
+                    throw new IllegalStateException("Token audience " + aud + " not valid for app '" + APP_AUD + "'");
+                }
+
                 String email = claims.get("email", String.class);
                 String role = claims.get("role", String.class);
 
