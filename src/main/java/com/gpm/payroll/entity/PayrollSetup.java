@@ -1,7 +1,6 @@
 package com.gpm.payroll.entity;
 
 import com.gpm.common.entity.JobPosition;
-import com.gpm.common.entity.SalaryGrade;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,9 +25,12 @@ public class PayrollSetup {
     @JoinColumn(name = "job_position_id")
     private JobPosition jobPosition;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "salary_grade_id")
-    private SalaryGrade salaryGrade;
+    /** Base pay for this setup — the amount payroll computes from (written by wos-hr). */
+    @Column(name = "base_salary", precision = 12, scale = 2)
+    private BigDecimal baseSalary;
+
+    @Column(name = "currency", length = 10)
+    private String currency;
 
     @Column(name = "compensation_basis")
     private String compensationBasis;

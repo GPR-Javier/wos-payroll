@@ -203,7 +203,7 @@ public class PayrollService {
     private Payslip computePayslip(User emp, JobPosition position,
                                    com.gpm.payroll.entity.PayrollSetup setup, PayrollRun run) {
         String basis        = setup.getCompensationBasis();
-        BigDecimal monthly  = nvl(setup.getSalaryGrade().getSalaryAmount());
+        BigDecimal monthly  = nvl(setup.getBaseSalary());
 
         // Basic salary for this pay period
         BigDecimal basic    = periodAmount(monthly, basis, run.getPeriodStart(), run.getPeriodEnd());
