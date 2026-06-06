@@ -1,6 +1,6 @@
-package com.gpm.payroll.repository;
+package com.gpr.payroll.repository;
 
-import com.gpm.common.entity.Payslip;
+import com.gpr.common.entity.Payslip;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.data.domain.Page;

@@ -1,7 +1,7 @@
-package com.gpm.payroll.service;
+package com.gpr.payroll.service;
 
-import com.gpm.common.entity.*;
-import com.gpm.payroll.repository.*;
+import com.gpr.common.entity.*;
+import com.gpr.payroll.repository.*;
 import com.lowagie.text.Document;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
@@ -138,11 +138,11 @@ public class PayrollService {
             JobPosition position = positions.get(0).getJobPosition();
 
             // Find the most recently effective active PayrollSetup for this position
-            List<com.gpm.payroll.entity.PayrollSetup> setups =
+            List<com.gpr.payroll.entity.PayrollSetup> setups =
                     payrollSetupRepo.findActiveByJobPositionId(position.getId());
             if (setups.isEmpty()) continue;
 
-            com.gpm.payroll.entity.PayrollSetup setup = setups.stream()
+            com.gpr.payroll.entity.PayrollSetup setup = setups.stream()
                     .max(Comparator.comparing(s ->
                             s.getEffectiveDate() != null ? s.getEffectiveDate() : LocalDate.MIN))
                     .orElseThrow();
@@ -201,7 +201,7 @@ public class PayrollService {
     // ── Payslip computation ───────────────────────────────────────────────────
 
     private Payslip computePayslip(User emp, JobPosition position,
-                                   com.gpm.payroll.entity.PayrollSetup setup, PayrollRun run) {
+                                   com.gpr.payroll.entity.PayrollSetup setup, PayrollRun run) {
         String basis        = setup.getCompensationBasis();
         BigDecimal monthly  = nvl(setup.getBaseSalary());
 

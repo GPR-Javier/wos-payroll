@@ -1,13 +1,13 @@
-package com.gpm.payroll.service;
+package com.gpr.payroll.service;
 
-import com.gpm.common.entity.RatingVersion;
-import com.gpm.common.entity.RewardHistory;
-import com.gpm.common.entity.RewardRule;
-import com.gpm.common.entity.TeacherRating;
-import com.gpm.payroll.repository.RatingVersionRepository;
-import com.gpm.payroll.repository.RewardHistoryRepository;
-import com.gpm.payroll.repository.RewardRuleRepository;
-import com.gpm.payroll.repository.TeacherRatingRepository;
+import com.gpr.common.entity.RatingVersion;
+import com.gpr.common.entity.RewardHistory;
+import com.gpr.common.entity.RewardRule;
+import com.gpr.common.entity.TeacherRating;
+import com.gpr.payroll.repository.RatingVersionRepository;
+import com.gpr.payroll.repository.RewardHistoryRepository;
+import com.gpr.payroll.repository.RewardRuleRepository;
+import com.gpr.payroll.repository.TeacherRatingRepository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

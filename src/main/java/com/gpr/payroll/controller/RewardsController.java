@@ -1,9 +1,9 @@
-package com.gpm.payroll.controller;
+package com.gpr.payroll.controller;
 
-import com.gpm.common.entity.RatingVersion;
-import com.gpm.common.entity.RewardHistory;
-import com.gpm.common.entity.RewardRule;
-import com.gpm.payroll.service.RewardsService;
+import com.gpr.common.entity.RatingVersion;
+import com.gpr.common.entity.RewardHistory;
+import com.gpr.common.entity.RewardRule;
+import com.gpr.payroll.service.RewardsService;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

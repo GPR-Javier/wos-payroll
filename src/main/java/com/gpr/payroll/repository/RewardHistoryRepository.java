@@ -1,6 +1,6 @@
-package com.gpm.payroll.repository;
+package com.gpr.payroll.repository;
 
-import com.gpm.common.entity.RewardHistory;
+import com.gpr.common.entity.RewardHistory;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

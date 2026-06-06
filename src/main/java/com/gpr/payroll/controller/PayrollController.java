@@ -1,9 +1,9 @@
-package com.gpm.payroll.controller;
+package com.gpr.payroll.controller;
 
-import com.gpm.common.entity.PayrollRun;
-import com.gpm.common.entity.PayrollRunStep;
-import com.gpm.common.entity.Payslip;
-import com.gpm.payroll.service.PayrollService;
+import com.gpr.common.entity.PayrollRun;
+import com.gpr.common.entity.PayrollRunStep;
+import com.gpr.common.entity.Payslip;
+import com.gpr.payroll.service.PayrollService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;

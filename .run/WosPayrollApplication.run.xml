@@ -5,7 +5,7 @@
     survives Stop and keeps holding the port).
   -->
   <configuration default="false" name="WosPayrollApplication" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.gpm.payroll.WosPayrollApplication" />
+    <option name="MAIN_CLASS_NAME" value="com.gpr.payroll.WosPayrollApplication" />
     <module name="wos-payroll" />
     <option name="VM_PARAMETERS" value="" />
     <option name="PROGRAM_PARAMETERS" value="" />

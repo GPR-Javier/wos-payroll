@@ -1,6 +1,6 @@
-package com.gpm.payroll.repository;
+package com.gpr.payroll.repository;
 
-import com.gpm.common.entity.UserPosition;
+import com.gpr.common.entity.UserPosition;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

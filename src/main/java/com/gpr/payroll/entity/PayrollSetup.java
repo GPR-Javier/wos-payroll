@@ -1,6 +1,6 @@
-package com.gpm.payroll.entity;
+package com.gpr.payroll.entity;
 
-import com.gpm.common.entity.JobPosition;
+import com.gpr.common.entity.JobPosition;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

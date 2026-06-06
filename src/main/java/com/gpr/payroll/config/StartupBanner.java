@@ -1,4 +1,4 @@
-package com.gpm.payroll.config;
+package com.gpr.payroll.config;
 
 import java.util.HashMap;
 import java.util.Map;

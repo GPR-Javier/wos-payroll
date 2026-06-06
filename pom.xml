@@ -8,7 +8,7 @@
 		<version>4.1.0-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.gpm</groupId>
+	<groupId>com.gpr</groupId>
 	<artifactId>wos-payroll</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>wos-payroll</name>
@@ -22,7 +22,7 @@
 	<dependencies>
 		<!-- Shared entities, DTOs, enums, constants -->
 		<dependency>
-			<groupId>com.gpm</groupId>
+			<groupId>com.gpr</groupId>
 			<artifactId>wos-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -130,7 +130,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.gpm.payroll.WosPayrollApplication</mainClass>
+					<mainClass>com.gpr.payroll.WosPayrollApplication</mainClass>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

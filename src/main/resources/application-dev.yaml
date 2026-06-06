@@ -28,4 +28,4 @@ jwt:
 logging:
   level:
     org.springframework.security: DEBUG
-    com.gpm: DEBUG
+    com.gpr: DEBUG

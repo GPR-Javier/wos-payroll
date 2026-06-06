@@ -1,6 +1,6 @@
-package com.gpm.payroll.repository;
+package com.gpr.payroll.repository;
 
-import com.gpm.common.entity.RewardRule;
+import com.gpr.common.entity.RewardRule;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

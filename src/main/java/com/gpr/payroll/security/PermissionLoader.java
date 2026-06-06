@@ -1,6 +1,6 @@
-package com.gpm.payroll.security;
+package com.gpr.payroll.security;
 
-import com.gpm.common.enums.FunctionalityCode;
+import com.gpr.common.enums.FunctionalityCode;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

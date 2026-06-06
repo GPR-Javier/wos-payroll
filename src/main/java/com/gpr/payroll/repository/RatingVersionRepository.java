@@ -1,6 +1,6 @@
-package com.gpm.payroll.repository;
+package com.gpr.payroll.repository;
 
-import com.gpm.common.entity.RatingVersion;
+import com.gpr.common.entity.RatingVersion;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

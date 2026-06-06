@@ -1,8 +1,8 @@
-package com.gpm.payroll.config;
+package com.gpr.payroll.config;
 
-import com.gpm.payroll.security.JwtAuthenticationFilter;
-import com.gpm.payroll.security.RestAccessDeniedHandler;
-import com.gpm.payroll.security.RestAuthenticationEntryPoint;
+import com.gpr.payroll.security.JwtAuthenticationFilter;
+import com.gpr.payroll.security.RestAccessDeniedHandler;
+import com.gpr.payroll.security.RestAuthenticationEntryPoint;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

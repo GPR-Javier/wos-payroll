@@ -1,4 +1,4 @@
-package com.gpm.payroll.security;
+package com.gpr.payroll.security;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

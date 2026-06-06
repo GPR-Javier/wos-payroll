@@ -1,6 +1,6 @@
-package com.gpm.payroll.repository;
+package com.gpr.payroll.repository;
 
-import com.gpm.common.entity.PayrollRun;
+import com.gpr.common.entity.PayrollRun;
 import java.math.BigDecimal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
