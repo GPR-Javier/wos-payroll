@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("""
             SELECT DISTINCT u FROM User u, UserRoleAssignment ra
             JOIN ra.userRole ur
-            WHERE ra.userId = u.id
+            WHERE ra.user.id = u.id
               AND LOWER(ur.name) = LOWER(:roleName)
               AND u.active = true
               AND (ra.startAt IS NULL OR ra.startAt <= CURRENT_TIMESTAMP)
