@@ -17,10 +17,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * Used by payroll-run generation to enumerate teachers (or any other paid role).
      */
     @Query("""
-            SELECT DISTINCT u FROM User u
-            JOIN u.roleAssignments ra
+            SELECT DISTINCT u FROM User u, UserRoleAssignment ra
             JOIN ra.userRole ur
-            WHERE LOWER(ur.name) = LOWER(:roleName)
+            WHERE ra.userId = u.id
+              AND LOWER(ur.name) = LOWER(:roleName)
               AND u.active = true
               AND (ra.startAt IS NULL OR ra.startAt <= CURRENT_TIMESTAMP)
               AND (ra.endAt   IS NULL OR ra.endAt   >= CURRENT_TIMESTAMP)

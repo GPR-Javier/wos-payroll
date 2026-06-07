@@ -10,7 +10,7 @@ public interface UserPositionRepository extends JpaRepository<UserPosition, Long
 
     @Query("""
             SELECT up FROM UserPosition up
-            WHERE up.user.id = :userId
+            WHERE up.userId = :userId
               AND up.primary = true
               AND up.removedAt IS NULL
               AND (up.endDate IS NULL OR up.endDate >= CURRENT_DATE)
