@@ -25,6 +25,10 @@ spring:
 jwt:
   secret: 9X2vK8mP4qR7sT1uW6yA3dF0gH5jL8nB2eC7fI4kM1pQ6rS0tU9vX3zA5bE8hJnK2mP5qR7sT0uW3yA6dF1gH4jL9nB3eC8fI5kM2p
 
+# Identity provider (gpr-auth) base URL — used to resolve employee names by id for payslips.
+gpr-auth:
+  base-url: http://localhost:8081/api/auth
+
 logging:
   level:
     org.springframework.security: DEBUG

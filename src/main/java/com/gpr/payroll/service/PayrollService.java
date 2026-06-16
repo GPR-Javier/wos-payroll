@@ -59,6 +59,7 @@ public class PayrollService {
     private final UserPositionRepository   userPositionRepo;
     private final PayrollSetupRepository   payrollSetupRepo;
     private final ObjectMapper             objectMapper;
+    private final com.gpr.payroll.client.UserDirectoryClient userDirectory;
 
     // ── Stats ─────────────────────────────────────────────────────────────────
 
@@ -227,10 +228,14 @@ public class PayrollService {
         BigDecimal totalDed   = sss.add(phi).add(pag).add(tax).add(named);
         BigDecimal net        = gross.subtract(totalDed).max(BigDecimal.ZERO);
 
+        com.gpr.common.dto.UserSummaryDto empSummary = userDirectory.getSummary(emp.getUserId());
+        String employeeName = empSummary == null ? emp.getEmployeeId()
+                : ((empSummary.getFirstName() == null ? "" : empSummary.getFirstName())
+                        + " " + (empSummary.getLastName() == null ? "" : empSummary.getLastName())).trim();
         return Payslip.builder()
                 .payrollRun(run)
                 .employeeId(emp.getEmployeeId())
-                .employeeName(emp.getFirstName() + " " + emp.getLastName())
+                .employeeName(employeeName)
                 .position(position.getTitle())
                 .periodStart(run.getPeriodStart())
                 .periodEnd(run.getPeriodEnd())
