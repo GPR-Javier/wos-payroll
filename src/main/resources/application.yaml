@@ -7,6 +7,12 @@ spring:
     name: wos-payroll
   profiles:
     active: dev
+  main:
+    # Banner is printed AFTER startup (see StartupBanner), so disable the default.
+    banner-mode: "off"
+  output:
+    ansi:
+      enabled: always
   servlet:
     multipart:
       max-file-size: 25MB
