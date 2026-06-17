@@ -20,6 +20,9 @@ spring:
         format_sql: true
         generate_statistics: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        # Mapping the shared @TenantId JobPosting turns multi-tenancy on; this service doesn't do
+        # per-request scoping, so use the no-op root resolver to satisfy Hibernate (no filtering).
+        tenant_identifier_resolver: com.gpr.common.tenant.RootTenantIdentifierResolver
 
 # Shared JWT secret with wos-auth — wos-payroll only validates tokens, never issues them.
 jwt:
