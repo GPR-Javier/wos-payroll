@@ -1,22 +1,23 @@
 package com.gpr.payroll.entity;
 
 import com.gpr.common.entity.JobPosition;
+import com.gpr.kernel.entity.Auditable;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
  * Read-only projection of the payroll_setups table for payroll computation.
- * Source of truth is owned and written by wos-hr.
+ * Source of truth is owned and written by wos-hr. Lifecycle/audit columns
+ * (is_active, deleted_at, ...) come from {@link Auditable}.
  */
 @Entity
 @Table(name = "payroll_setups")
 @Getter
 @NoArgsConstructor
-public class PayrollSetup {
+public class PayrollSetup extends Auditable {
 
     @Id
     private Long id;
@@ -52,10 +53,4 @@ public class PayrollSetup {
 
     @Column(name = "effective_date")
     private LocalDate effectiveDate;
-
-    @Column(name = "is_active")
-    private boolean active;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
 }
