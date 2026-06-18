@@ -1,6 +1,6 @@
 package com.gpr.payroll.client;
 
-import com.gpr.common.dto.UserSummaryDto;
+import com.gpr.kernel.dto.UserSummaryDto;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

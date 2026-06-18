@@ -228,7 +228,7 @@ public class PayrollService {
         BigDecimal totalDed   = sss.add(phi).add(pag).add(tax).add(named);
         BigDecimal net        = gross.subtract(totalDed).max(BigDecimal.ZERO);
 
-        com.gpr.common.dto.UserSummaryDto empSummary = userDirectory.getSummary(emp.getUserId());
+        com.gpr.kernel.dto.UserSummaryDto empSummary = userDirectory.getSummary(emp.getUserId());
         String employeeName = empSummary == null ? emp.getEmployeeId()
                 : ((empSummary.getFirstName() == null ? "" : empSummary.getFirstName())
                         + " " + (empSummary.getLastName() == null ? "" : empSummary.getLastName())).trim();
