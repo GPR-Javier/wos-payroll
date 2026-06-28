@@ -60,6 +60,7 @@ public class PayrollService {
     private final PayrollSetupRepository   payrollSetupRepo;
     private final ObjectMapper             objectMapper;
     private final com.gpr.payroll.client.UserDirectoryClient userDirectory;
+    private final OvertimePayCalculator    overtimePayCalculator;
 
     // ── Stats ─────────────────────────────────────────────────────────────────
 
@@ -211,7 +212,15 @@ public class PayrollService {
 
         // Allowances (stored in incentives field for display)
         BigDecimal allowances = sumLineItems(setup.getAllowancesJson(), basic);
-        BigDecimal gross      = basic.add(allowances);
+
+        // Overtime + holiday/rest-day premium pay from the employee's approved claims for this period,
+        // valued at the company's configured multipliers, itemised per type.
+        OvertimePayCalculator.Result ot = overtimePayCalculator.compute(
+                emp.getUserId(), emp.getCompanyId(), monthly,
+                run.getPeriodStart(), run.getPeriodEnd());
+        BigDecimal overtimePay = ot.total();
+
+        BigDecimal gross      = basic.add(allowances).add(overtimePay);
 
         // Statutory deductions — computed on monthly basis, then scaled to pay period
         BigDecimal sss        = scale(computeSss(monthly),             basis);
@@ -241,6 +250,8 @@ public class PayrollService {
                 .periodEnd(run.getPeriodEnd())
                 .basicSalary(basic)
                 .incentives(allowances)
+                .overtimePay(overtimePay)
+                .overtimeBreakdown(ot.lines())
                 .grossPay(gross)
                 .sss(sss)
                 .philhealth(phi)
@@ -370,6 +381,14 @@ public class PayrollService {
             doc.add(new Paragraph("--- EARNINGS ---", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
             doc.add(new Paragraph("Basic Salary: " + p.getBasicSalary()));
             doc.add(new Paragraph("Allowances: " + p.getIncentives()));
+            if (p.getOvertimeBreakdown() != null && !p.getOvertimeBreakdown().isEmpty()) {
+                for (com.gpr.common.entity.PayslipOvertimeLine line : p.getOvertimeBreakdown()) {
+                    doc.add(new Paragraph(OvertimePayCalculator.label(line.getOvertimeType())
+                            + " (" + OvertimePayCalculator.hhmm(line.getHours()) + "): " + line.getAmount()));
+                }
+            } else if (p.getOvertimePay() != null && p.getOvertimePay().signum() > 0) {
+                doc.add(new Paragraph("Overtime/Premium Pay: " + p.getOvertimePay()));
+            }
             doc.add(new Paragraph("Gross Pay: " + p.getGrossPay()));
             doc.add(new Paragraph(" "));
             doc.add(new Paragraph("--- DEDUCTIONS ---", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
@@ -408,6 +427,15 @@ public class PayrollService {
             row(sheet, r++, "EARNINGS", "");
             row(sheet, r++, "Basic Salary",  p.getBasicSalary().doubleValue());
             row(sheet, r++, "Allowances",    p.getIncentives().doubleValue());
+            if (p.getOvertimeBreakdown() != null && !p.getOvertimeBreakdown().isEmpty()) {
+                for (com.gpr.common.entity.PayslipOvertimeLine line : p.getOvertimeBreakdown()) {
+                    row(sheet, r++, OvertimePayCalculator.label(line.getOvertimeType())
+                            + " (" + OvertimePayCalculator.hhmm(line.getHours()) + ")",
+                            line.getAmount().doubleValue());
+                }
+            } else if (p.getOvertimePay() != null && p.getOvertimePay().signum() > 0) {
+                row(sheet, r++, "Overtime/Premium Pay", p.getOvertimePay().doubleValue());
+            }
             row(sheet, r++, "Gross Pay",     p.getGrossPay().doubleValue());
             row(sheet, r++, "");
             row(sheet, r++, "DEDUCTIONS", "");
