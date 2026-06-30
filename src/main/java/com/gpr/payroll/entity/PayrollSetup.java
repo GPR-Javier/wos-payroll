@@ -26,7 +26,7 @@ public class PayrollSetup extends Auditable {
     @JoinColumn(name = "job_position_id")
     private JobPosition jobPosition;
 
-    /** Base pay for this setup — the amount payroll computes from (written by wos-hr). */
+        /** Base pay for this setup — the amount payroll computes from (written by wos-hr). */
     @Column(name = "base_salary", precision = 12, scale = 2)
     private BigDecimal baseSalary;
 
