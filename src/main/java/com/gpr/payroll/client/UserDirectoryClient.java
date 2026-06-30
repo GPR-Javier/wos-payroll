@@ -1,7 +1,11 @@
 package com.gpr.payroll.client;
 
 import com.gpr.kernel.dto.UserSummaryDto;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -21,6 +25,34 @@ public class UserDirectoryClient {
     public UserDirectoryClient(
             @Value("${gpr-auth.base-url:http://localhost:8081/api/auth}") String baseUrl) {
         this.restClient = RestClient.builder().baseUrl(baseUrl).build();
+    }
+
+    /**
+     * Resolves summaries for many ids in one call, keyed by id — used when generating a payroll run so
+     * employee names are fetched once for the whole company instead of per payslip. Degrades to an empty
+     * map on failure so a directory outage never aborts a run (names fall back to the employee code).
+     *
+     * @param ids identity ids to resolve (null/empty → empty map)
+     * @return summaries keyed by identity id
+     */
+    public Map<Long, UserSummaryDto> getSummaries(Collection<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Map.of();
+        }
+        Long[] idArray = ids.stream().distinct().toArray(Long[]::new);
+        try {
+            List<UserSummaryDto> summaries = restClient.get()
+                    .uri(uriBuilder -> uriBuilder.path("/users/summaries")
+                            .queryParam("ids", (Object[]) idArray)
+                            .build())
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<List<UserSummaryDto>>() {});
+            return summaries == null ? Map.of()
+                    : summaries.stream().collect(Collectors.toMap(UserSummaryDto::getId, Function.identity()));
+        } catch (Exception e) {
+            log.warn("Batch user summary lookup failed for {} ids: {}", idArray.length, e.getMessage());
+            return Map.of();
+        }
     }
 
     /** Resolves a single user summary by identity id, or null on miss / lookup failure. */

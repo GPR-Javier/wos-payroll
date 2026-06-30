@@ -133,6 +133,11 @@ public class PayrollService {
         List<Payslip> payslips = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
 
+        // Resolve every employee's display name in one directory call instead of one HTTP round trip
+        // per employee inside computePayslip.
+        java.util.Map<Long, com.gpr.kernel.dto.UserSummaryDto> summaries = userDirectory.getSummaries(
+                employees.stream().map(User::getUserId).toList());
+
         for (User emp : employees) {
             // Resolve primary active position
             List<UserPosition> positions = userPositionRepo.findPrimaryActiveByUserId(emp.getId());
@@ -149,7 +154,7 @@ public class PayrollService {
                             s.getEffectiveDate() != null ? s.getEffectiveDate() : LocalDate.MIN))
                     .orElseThrow();
 
-            Payslip p = computePayslip(emp, position, setup, run);
+            Payslip p = computePayslip(emp, position, setup, run, summaries.get(emp.getUserId()));
             payslips.add(p);
             total = total.add(p.getNetPay());
         }
@@ -203,7 +208,8 @@ public class PayrollService {
     // ── Payslip computation ───────────────────────────────────────────────────
 
     private Payslip computePayslip(User emp, JobPosition position,
-                                   com.gpr.payroll.entity.PayrollSetup setup, PayrollRun run) {
+                                   com.gpr.payroll.entity.PayrollSetup setup, PayrollRun run,
+                                   com.gpr.kernel.dto.UserSummaryDto empSummary) {
         String basis        = setup.getCompensationBasis();
         BigDecimal monthly  = nvl(setup.getBaseSalary());
 
@@ -237,7 +243,6 @@ public class PayrollService {
         BigDecimal totalDed   = sss.add(phi).add(pag).add(tax).add(named);
         BigDecimal net        = gross.subtract(totalDed).max(BigDecimal.ZERO);
 
-        com.gpr.kernel.dto.UserSummaryDto empSummary = userDirectory.getSummary(emp.getUserId());
         String employeeName = empSummary == null ? emp.getEmployeeId()
                 : ((empSummary.getFirstName() == null ? "" : empSummary.getFirstName())
                         + " " + (empSummary.getLastName() == null ? "" : empSummary.getLastName())).trim();
